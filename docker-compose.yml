@@ -1,0 +1,18 @@
+version: "3"
+
+# More info at https://github.com/oracle/opengrok/docker/
+services:
+  opengrok:
+    container_name: opengrok-app
+    image: ft2m/opengrok-app
+    ports:
+      - "8080:8080/tcp"
+    environment:
+      REINDEX: '${REINDEX}'
+      BRANCH: '${BRANCH}'
+    # Volumes store your data between container upgrades
+    volumes:
+      - '${SRC_FOLDER}:/opengrok/src/'  # source code
+      - '${ETC_FOLDER}:/opengrok/etc/'  # folder contains configuration.xml
+      - '${DATA_FOLDER}:/opengrok/data/'  # index and other things for source code
+      - '${SSH_FOLDER}:/root/.ssh/'  # index and other things for source code

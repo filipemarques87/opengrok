@@ -1,5 +1,7 @@
 #!/bin/bash
 
+LOCKFILE=/var/run/opengrok-indexer
+
 # default period for reindexing (in minutes)
 if [ -z "$REINDEX" ]; then
 	REINDEX=10
@@ -35,12 +37,21 @@ indexer(){
 	if [ "$REINDEX" == "0" ]; then
 		date +"%F %T Automatic reindexing disabled"
 		return
-	else
-		date +"%F %T Automatic reindexing in $REINDEX minutes..."
 	fi
 	while true; do
+		if [ -f "$LOCKFILE" ]; then
+			date +"%F %T Indexer still locked, skipping indexing"
+			exit 1
+		fi
+
+		touch $LOCKFILE
+
+		/scripts/smart_index.sh
+
+		rm -f $LOCKFILE
+
+		date +"%F %T Automatic reindexing in $REINDEX minutes..."
 		sleep `expr 60 \* $REINDEX`
-		/scripts/index.sh
 	done
 }
 

@@ -1,58 +1,32 @@
 
+
 Copyright (c) 2006, 2019 Oracle and/or its affiliates. All rights reserved.
 
+For the official documentation, see https://github.com/oracle/opengrok
 
-# OpenGrok - a wicked fast source browser
-[![Travis status](https://travis-ci.org/oracle/opengrok.svg?branch=master)](https://travis-ci.org/oracle/opengrok)
-[![Coverage status](https://coveralls.io/repos/oracle/opengrok/badge.svg?branch=master)](https://coveralls.io/r/oracle/opengrok?branch=master)
-[![SonarQube status](https://sonarcloud.io/api/project_badges/measure?project=org.opengrok%3Aopengrok-top&metric=alert_status)](https://sonarcloud.io/dashboard?id=org.opengrok%3Aopengrok-top)
-[![Total alerts](https://img.shields.io/lgtm/alerts/g/oracle/opengrok.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/oracle/opengrok/alerts/)
-[![License](https://img.shields.io/badge/License-CDDL%201.0-blue.svg)](https://opensource.org/licenses/CDDL-1.0)
+## Changes
 
-- [OpenGrok - a wicked fast source browser](#opengrok---a-wicked-fast-source-browser)
-  - [1. Introduction](#1-introduction)
-  - [2. OpenGrok install and setup](#2-opengrok-install-and-setup)
-  - [3. Information for developers](#3-information-for-developers)
-  - [4. Authors](#4-authors)
-  - [5. Contact us](#5-contact-us)
-  - [6. Run as container](#6-run-as-container)
+The reindex only happens if the script detects a new commit on the branch. If it is not the case, the script will do nothing for that repository.
+  
+## Varibles
+| Variable | Description | Example |
+|--|--|--|
+| SRC_FOLDER | Source folder used by opengrok where the repository will be cloned | ~/opengrok/opengrok-src/ |
+| ETC_FOLDER | Configuration folder used by the opengrok and where is the file with the repository list | ~/opengrok/opengrok-etc/ |
+| DATA_FOLDER | Data folder used by opengrok to store the indices | ~/opengrok/opengrok-data/ |
+| SSH_FOLDER | Location of the ssh keys | ~/.ssh/ |
+| REINDEX | The value in minutes the reindex frequency | 60 |
+| BRANCH | The remote branch for which opengrok will be looking at. To see the different branches: `git ls-remote git://github.com/jszakmeister/trac-backlog.git` | HEAD |
 
-## 1. Introduction
+## How to setup
 
-OpenGrok is a fast and usable source code search and cross reference
-engine, written in Java. It helps you search, cross-reference and navigate
-your source tree. It can understand various program file formats and
-version control histories of many source code management systems.
+- add the repositories that you would like to add to opengrok into `repo.txt` file. This file should be in placed in `$ETC_FOLDER` defined in `install.sh` script
 
-Official page of the project is on:
-<http://opengrok.github.com/OpenGrok/>
+- the ssh public key should be added into remove repository
 
-## 2. OpenGrok install and setup
+- the frequency of the indexing is controlled by `$REINDEX` variable, also defined in `install.sh` script
 
-See https://github.com/oracle/opengrok/wiki/How-to-setup-OpenGrok
+- the URL is http://localhost:8080/
 
-## 3. Information for developers
-
-See https://github.com/oracle/opengrok/wiki/Developer-intro and https://github.com/oracle/opengrok/wiki/Developers
-
-## 4. Authors
-
-The project has been originally conceived in Sun Microsystems by Chandan B.N.
-
-For full list of contributors see https://github.com/oracle/opengrok/graphs/contributors
-
-## 5. Contact us
-
-Feel free to participate in discussion on the mailing lists:
-
-  `opengrok-users@yahoogroups.com` (user topics)
-
-  `opengrok-dev@yahoogroups.com` (developers' discussion)
-
-To subscribe, send email to `<mailing_list_name>-subscribe@yahoogroups.com`
-
-There are also Slack channels on https://opengrok.slack.com/
-
-## 6. Run as container
-
-You can run OpenGrok as a Docker container as described [here](docker/README.md).
+## TODO
+- use docker secret command to deal with the ssh keys (right now, the ssh keys are exposed)
