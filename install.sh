@@ -31,6 +31,7 @@ fi
 
 # index interval in minutes
 export REINDEX=60
+export BRANCH=develop
 
 # run the application
 date +"%F %T Start application"
