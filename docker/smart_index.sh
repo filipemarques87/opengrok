@@ -69,6 +69,7 @@ while read repo; do
       date +"%F %T Cloning $repo..."
       # The repository does not exist, clone it and run the indexers
       git clone $repo
+      git clone --single-branch --branch $BRANCH $repo
       echo $(get_last_commit $repo) > ./$repo_dir/$LAST_COMMIT_FILENAME
       # ./index.sh
       /scripts/index.sh
