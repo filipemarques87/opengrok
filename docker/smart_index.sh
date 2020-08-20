@@ -47,7 +47,7 @@ while read repo; do
    date +"%F %T Treate $repo ..."
 
   cd $SRC_ROOT
-  # repo_dir="$(git_foldername $repo)"
+  repo_dir="$(git_foldername $repo)"
 
   if [ -d "$repo_dir" ]; then
     # Last known commit hash from the last run
@@ -61,8 +61,7 @@ while read repo; do
       cd $repo_dir
       git pull
       echo $last_commit > $LAST_COMMIT_FILENAME
-      # ./index.sh
-		  /scripts/index.sh
+      /scripts/index.sh
     fi
 
   else
@@ -70,7 +69,6 @@ while read repo; do
       # The repository does not exist, clone it and run the indexers
       git clone --single-branch --branch $BRANCH $repo
       echo $(get_last_commit $repo) > ./$repo_dir/$LAST_COMMIT_FILENAME
-      # ./index.sh
       /scripts/index.sh
   fi
 
